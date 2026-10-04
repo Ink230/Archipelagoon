@@ -12,6 +12,7 @@ import archipelagoon.randomizer.AdditionManager;
 import archipelagoon.randomizer.DeathlinkManager;
 import archipelagoon.randomizer.MagicManager;
 import archipelagoon.randomizer.MessageManager;
+import io.github.archipelagomw.APResult;
 import io.github.archipelagomw.ClientStatus;
 import io.github.archipelagomw.flags.ItemsHandling;
 import io.github.archipelagomw.network.client.CreateAsHint;
@@ -31,6 +32,7 @@ import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 import static archipelagoon.Archipelagoon.PASSWORD_CONFIG;
 import static archipelagoon.Archipelagoon.SLOT_NAME_CONFIG;
+import static archipelagoon.data.tables.ProgressiveDartSpirit.DART_PROGRESSIVE_SPIRIT_ITEM_ID;
 
 public class APContext {
   private static final APContext INSTANCE = new APContext();
@@ -88,7 +90,21 @@ public class APContext {
   }
 
   public void checkLocation(final Long locationId) {
-    this.client.checkLocation(locationId);
+    if(this.client.isAlreadyChecked(locationId)) {
+      return;
+    }
+
+    if(this.client.checkLocation(locationId).getCode() != APResult.ResultCode.SUCCESS) {
+      return;
+    }
+
+    final LocationState item = GameEngine.CONFIG.getConfig(LOCATION_STATE_REGISTRY.get()).stream()
+      .filter(ls -> locationId.equals(ls.getLocationID())).findFirst().orElse(null);
+
+    if(item != null) {
+      final String sendMessage = I18n.translate(Archipelagoon.MOD_ID + ".ap.event.checkLocation", item.getItemName(), item.getPlayerName());
+      this.messageManager.displayMessage(sendMessage);
+    }
   }
 
   public void retrieveLocations() {
@@ -207,6 +223,10 @@ public class APContext {
   public RegistryId getProgressiveDartSpiritMatch(final long itemId) {
     final APContext ctx = APContext.getContext();
     final List<Long> receivedItems = ctx.getReceivedItemIDs();
+
+    if(itemId != DART_PROGRESSIVE_SPIRIT_ITEM_ID) {
+      return null;
+    }
 
     final int totalReceived = Collections.frequency(receivedItems, itemId);
     final Map<Integer, RegistryId> spiritMap = ProgressiveDartSpirit.getStaticMap();
