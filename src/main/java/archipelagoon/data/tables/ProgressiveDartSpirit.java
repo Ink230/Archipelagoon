@@ -8,6 +8,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class ProgressiveDartSpirit {
+  public static final Long DART_PROGRESSIVE_SPIRIT_ITEM_ID = 108_20040L;
   private static final Map<Integer, RegistryId> DART_PROGRESSIVE_SPIRIT_MAP = new LinkedHashMap<>();
 
   static {
