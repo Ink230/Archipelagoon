@@ -89,6 +89,21 @@ public final class Additions {
     return Collections.unmodifiableMap(ADDITION_LOCATIONS);
   }
 
+  public static Map<Long, String> getStaticFlatMap() {
+    final Map<Long, String> locationMap = new LinkedHashMap<>();
+    for(final Map.Entry<RegistryId, Long> additionInfo : ADDITION_LOCATIONS.entrySet()) {
+      locationMap.put(additionInfo.getValue(), additionInfo.getKey().toString());
+    }
+
+    for(final Map.Entry<RegistryId, Long[]> additionLevelInfo : ADDITION_LEVEL_LOCATIONS.entrySet()) {
+      for(final long levelLocationId : additionLevelInfo.getValue()) {
+        locationMap.put(levelLocationId, additionLevelInfo.getKey().toString());
+      }
+    }
+
+    return Collections.unmodifiableMap(locationMap);
+  }
+
   public static Long getAPLocationId(final RegistryId additionId) {
     return ADDITION_LOCATIONS.get(additionId);
   }
