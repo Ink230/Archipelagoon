@@ -20,6 +20,7 @@ import archipelagoon.randomizer.ShopManager;
 import archipelagoon.randomizer.StoryFlagManager;
 import legend.core.GameEngine;
 import legend.core.lang.I18nText;
+import legend.game.characters.LevelUpSource;
 import legend.game.combat.BattleTransitionMode;
 import legend.game.combat.deff.RegisterDeffsEvent;
 import legend.game.combat.effects.TransformationMode;
@@ -349,6 +350,10 @@ public class Archipelagoon {
 
   @EventListener
   public void characterLevelUp(final PostCharacterLevelUpEvent event) {
+    if(event.source != LevelUpSource.GAMEPLAY) {
+      return;
+    }
+
     AdditionManager.getInstance().checkUnlock(event.character);
   }
 
@@ -389,7 +394,7 @@ public class Archipelagoon {
   }
 
   @EventListener
-  public void submapWarpListener(final SubmapWarpEvent event){
+  public void submapWarpListener(final SubmapWarpEvent event) {
     StoryFlagManager.submapWarpListener(event);
   }
 
