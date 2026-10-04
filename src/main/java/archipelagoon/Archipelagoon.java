@@ -353,7 +353,7 @@ public class Archipelagoon {
     if(event.source != LevelUpSource.GAMEPLAY) {
       return;
     }
-    
+
     AdditionManager.getInstance().checkUnlock(event.character);
   }
 
