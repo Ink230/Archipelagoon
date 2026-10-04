@@ -15,6 +15,7 @@ import legend.game.inventory.GoodsSource;
 import legend.game.inventory.Item;
 import org.legendofdragoon.modloader.registries.RegistryId;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -50,7 +51,7 @@ public class ReceiveItemListener {
 
     final APContext ctx = APContext.getContext();
     // This is the list of progressive maps we want to check against
-    final List<RegistryId> MATCHERS = List.of(ctx.getProgressiveAdditionMatch(apItemId), ctx.getProgressiveMagicMatch(apItemId), ctx.getProgressiveDartSpiritMatch(apItemId));
+    final List<RegistryId> MATCHERS = Arrays.asList(ctx.getProgressiveAdditionMatch(apItemId), ctx.getProgressiveMagicMatch(apItemId), ctx.getProgressiveDartSpiritMatch(apItemId));
 
     final RegistryId registryId;
     if(itemId != null) {

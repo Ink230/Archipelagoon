@@ -32,6 +32,7 @@ import static archipelagoon.Archipelagoon.ADDRESS_CONFIG;
 import static archipelagoon.Archipelagoon.LOCATION_STATE_REGISTRY;
 import static archipelagoon.Archipelagoon.PASSWORD_CONFIG;
 import static archipelagoon.Archipelagoon.SLOT_NAME_CONFIG;
+import static archipelagoon.data.tables.ProgressiveDartSpirit.DART_PROGRESSIVE_SPIRIT_ITEM_ID;
 
 public class APContext {
   private static final APContext INSTANCE = new APContext();
@@ -222,6 +223,10 @@ public class APContext {
   public RegistryId getProgressiveDartSpiritMatch(final long itemId) {
     final APContext ctx = APContext.getContext();
     final List<Long> receivedItems = ctx.getReceivedItemIDs();
+
+    if(itemId != DART_PROGRESSIVE_SPIRIT_ITEM_ID) {
+      return null;
+    }
 
     final int totalReceived = Collections.frequency(receivedItems, itemId);
     final Map<Integer, RegistryId> spiritMap = ProgressiveDartSpirit.getStaticMap();
